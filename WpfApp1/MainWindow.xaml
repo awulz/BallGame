@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="BallSpiel" Height="450" Width="800">
+        Title="BallGame" Height="450" Width="800">
     <Grid>
-        
+        <Button Content="Start/Stop" Name="StartStopButton"  HorizontalAlignment="Left" Margin="66,55,0,0" VerticalAlignment="Top" Click="Button_Click" RenderTransformOrigin="-2.978,0.303"/>
+        <Label Content="0 Clicks" Name="GameStateLabel"  HorizontalAlignment="Left" Margin="66,89,0,0" VerticalAlignment="Top" Width="57"/>
+        <Canvas Margin="175,0,0,0" Name="PlayGround" Background="#F9F2e7">
+            <Ellipse Width="20" Height="20" Name="Ball" Fill="#00A8c6" RenderTransformOrigin="10.8,7.402" Canvas.Left="90" Canvas.Top="74" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </Canvas>
     </Grid>
 </Window>

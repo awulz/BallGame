@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WpfApp1
 {
@@ -20,9 +21,35 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly DispatcherTimer _animationsTimer = new DispatcherTimer();
         public MainWindow()
         {
             InitializeComponent();
+
+            _animationsTimer.Interval = TimeSpan.FromMilliseconds(50);
+            _animationsTimer.Tick += BallPositioning;
+        }
+
+        private void BallPositioning(object sender, EventArgs e)
+        {
+            var x = Canvas.GetLeft(Ball);
+
+            Canvas.SetLeft(Ball, x + 5);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if(_animationsTimer.IsEnabled)
+            {
+                _animationsTimer.Stop();
+            }
+            else
+            {
+                _animationsTimer.Start();
+            }
+                       
+           
+
         }
     }
 }
