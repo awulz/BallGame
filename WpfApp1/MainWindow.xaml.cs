@@ -28,6 +28,7 @@ namespace WpfApp1
         private readonly System.Timers.Timer _animationsTimer = new System.Timers.Timer(40); // 20 ms Interval
         private bool goRight = true;
         private bool goDown = true;
+        private bool isRed = false;
 
         int count;
 
@@ -107,7 +108,18 @@ namespace WpfApp1
             {
                 count += 1;
                 GameStateLabel.Content = $"{count} Clicks";
+
+                if(count % 2 == 0)
+                {
+                    Ball.Fill = Brushes.Red;
+                }
+                else
+                {
+                    Ball.Fill = Brushes.Turquoise;
+                }
             }
         }
+
+        
     }
 }
