@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Timers;
 using System.Windows.Threading;
+
 
 namespace WpfApp1
 {
@@ -21,25 +25,47 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly DispatcherTimer _animationsTimer = new DispatcherTimer();
+        private readonly System.Timers.Timer _animationsTimer = new System.Timers.Timer(20); // 20 ms Interval
+        private bool goToRight = true;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            _animationsTimer.Interval = TimeSpan.FromMilliseconds(50);
-            _animationsTimer.Tick += BallPositioning;
+            _animationsTimer.Elapsed += (sender, e) =>
+            {
+                Dispatcher.Invoke(BallPositioning); // Zugriff auf den UI-Thread
+            };
+            
         }
 
-        private void BallPositioning(object sender, EventArgs e)
+        private void BallPositioning()
         {
             var x = Canvas.GetLeft(Ball);
 
-            Canvas.SetLeft(Ball, x + 5);
+            if(goToRight)
+            {
+                Canvas.SetLeft(Ball, x + 5);
+            }
+            else
+            {
+                Canvas.SetLeft(Ball, x - 5);
+            }
+
+            if(x + Ball.Width >=PlayGround.ActualWidth)
+            {
+                goToRight = false;
+            }
+            else if(x <= 0)
+            {
+                goToRight= true;
+            }
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if(_animationsTimer.IsEnabled)
+            if(_animationsTimer.Enabled)
             {
                 _animationsTimer.Stop();
             }
