@@ -27,6 +27,7 @@ namespace WpfApp1
     {
         private readonly System.Timers.Timer _animationsTimer = new System.Timers.Timer(20); // 20 ms Interval
         private bool goToRight = true;
+        private bool goDown = true;
 
         public MainWindow()
         {
@@ -60,7 +61,25 @@ namespace WpfApp1
             {
                 goToRight= true;
             }
-            
+            var y = Canvas.GetTop(Ball);
+
+            if (goDown)
+            {
+                Canvas.SetTop(Ball, y + 5);
+            }
+            else
+            {
+                Canvas.SetTop(Ball, y - 5);
+            }
+
+            if (y + Ball.Height >= PlayGround.ActualHeight)
+            {
+                goDown = false;
+            }
+            else if (y <= 0)
+            {
+                goDown = true;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
