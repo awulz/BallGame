@@ -25,9 +25,11 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly System.Timers.Timer _animationsTimer = new System.Timers.Timer(20); // 20 ms Interval
-        private bool goToRight = true;
+        private readonly System.Timers.Timer _animationsTimer = new System.Timers.Timer(40); // 20 ms Interval
+        private bool goRight = true;
         private bool goDown = true;
+
+        int count;
 
         public MainWindow()
         {
@@ -44,7 +46,7 @@ namespace WpfApp1
         {
             var x = Canvas.GetLeft(Ball);
 
-            if(goToRight)
+            if(goRight)
             {
                 Canvas.SetLeft(Ball, x + 5);
             }
@@ -55,11 +57,11 @@ namespace WpfApp1
 
             if(x + Ball.Width >=PlayGround.ActualWidth)
             {
-                goToRight = false;
+                goRight = false;
             }
             else if(x <= 0)
             {
-                goToRight= true;
+                goRight= true;
             }
             var y = Canvas.GetTop(Ball);
 
@@ -91,10 +93,21 @@ namespace WpfApp1
             else
             {
                 _animationsTimer.Start();
+                count = 0;
+                GameStateLabel.Content = $"{count} Clicks";
             }
                        
            
 
+        }
+
+        private void Ball_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if(_animationsTimer.Enabled)
+            {
+                count += 1;
+                GameStateLabel.Content = $"{count} Clicks";
+            }
         }
     }
 }
